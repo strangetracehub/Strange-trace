@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto-Ranking</title>
+  <style>
+    .ranked-products {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fefefe;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .product {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+    }
+    .product:last-child {
+      border-bottom: none;
+    }
+    .product-title {
+      font-weight: 600;
+    }
+    .product-score {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ranked-products">
+    <h3>🔄 Auto-Ranked Products</h3>
+    <div id="rankedList"></div>
+  </div>
+
+  <script>
+    const products = [
+      { title: "Sweet Scented Surprise", views: 142, likes: 57 },
+      { title: "Worn Overnight Set", views: 230, likes: 90 },
+      { title: "Mystery Audio Clip", views: 80, likes: 50 },
+      { title: "Try-On Lace Reels", views: 110, likes: 65 },
+      { title: "Tease Photo Pack", views: 200, likes: 30 }
+    ];
+
+    function calculateScore(item) {
+      return item.likes * 2 + item.views * 0.5; // simple ranking formula
+    }
+
+    function rankAndDisplay() {
+      const sorted = products
+        .map(p => ({ ...p, score: calculateScore(p) }))
+        .sort((a, b) => b.score - a.score);
+
+      const container = document.getElementById("rankedList");
+      sorted.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = \`
+          <span class="product-title">\${p.title}</span>
+          <span class="product-score">Score: \${p.score.toFixed(1)}</span>
+        \`;
+        container.appendChild(div);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", rankAndDisplay);
+  </script>
+
+</body>
+</html>
