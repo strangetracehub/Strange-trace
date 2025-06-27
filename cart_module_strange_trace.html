@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart & Multi-Pay</title>
+  <style>
+    .cart-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f8f8f8;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item button {
+      padding: 6px 10px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .checkout-btn {
+      margin-top: 20px;
+      padding: 14px 20px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cart-container">
+    <h3>🛒 Your Cart</h3>
+    <div id="cartItems"></div>
+    <button class="checkout-btn" onclick="checkout()">Pay All</button>
+  </div>
+
+  <script>
+    const cart = [
+      { id: "x1", title: "Secret Lace Set", price: 24.99 },
+      { id: "x2", title: "Private Voice Note", price: 14.50 },
+      { id: "x3", title: "Mystery Gift Pack", price: 29.00 }
+    ];
+
+    function renderCart() {
+      const container = document.getElementById("cartItems");
+      container.innerHTML = "";
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = \`
+          <span>\${item.title} – $ \${item.price.toFixed(2)}</span>
+          <button onclick="removeItem(\${index})">Remove</button>
+        \`;
+        container.appendChild(div);
+      });
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function checkout() {
+      const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+      const titles = cart.map(item => item.title).join(", ");
+      const safeTitle = "Bundle Order – Digital Delivery";
+      const orderId = "order_bundle_" + Date.now();
+      const url = "https://pay.cryptomus.com/pay/TEST_API?" +
+        new URLSearchParams({
+          amount: total,
+          currency: "USD",
+          order_id: orderId,
+          title: safeTitle,
+          buyer_email: "buyer@example.com",
+          success_url: location.href + "?paid=" + orderId,
+          fail_url: location.href + "?fail=" + orderId
+        }).toString();
+      window.open(url, "_blank");
+    }
+
+    window.addEventListener("DOMContentLoaded", renderCart);
+  </script>
+
+</body>
+</html>
