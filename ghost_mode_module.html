@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ghost Mode</title>
+  <style>
+    .ghost-toggle {
+      margin: 30px auto;
+      text-align: center;
+    }
+    .ghost-btn {
+      background: #444;
+      color: #fff;
+      padding: 12px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .ghost-btn:hover {
+      background: #222;
+    }
+    body.ghost-mode .sensitive-content {
+      display: none !important;
+    }
+    .ghost-notice {
+      display: none;
+      text-align: center;
+      color: #888;
+      margin-top: 10px;
+    }
+    body.ghost-mode .ghost-notice {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ghost-toggle">
+    <button class="ghost-btn" onclick="toggleGhostMode()">👻 Enable Ghost Mode</button>
+    <div class="ghost-notice">Ghost Mode is active – sensitive content is hidden.</div>
+  </div>
+
+  <div class="sensitive-content" style="margin: 20px auto; max-width: 600px; background: #ffeef0; padding: 20px; border-radius: 8px;">
+    <h3>Private Content</h3>
+    <p>This block contains sensitive or explicit information. It will be hidden in Ghost Mode.</p>
+  </div>
+
+  <script>
+    function toggleGhostMode() {
+      document.body.classList.toggle("ghost-mode");
+      const btn = document.querySelector(".ghost-btn");
+      if (document.body.classList.contains("ghost-mode")) {
+        btn.innerHTML = "🔓 Disable Ghost Mode";
+      } else {
+        btn.innerHTML = "👻 Enable Ghost Mode";
+      }
+    }
+  </script>
+
+</body>
+</html>
