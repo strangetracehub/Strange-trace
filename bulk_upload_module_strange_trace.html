@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bulk Upload</title>
+  <style>
+    .bulk-upload-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5faff;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .bulk-upload-box input[type="file"] {
+      display: block;
+      margin-bottom: 15px;
+    }
+    .bulk-upload-box button {
+      padding: 10px 18px;
+      font-size: 15px;
+      background: #0057a8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .upload-results {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bulk-upload-box">
+    <h3>📁 Bulk Upload Items</h3>
+    <p>Select a CSV file with the following format:</p>
+    <code>title,price,description</code>
+    <input type="file" id="csvFile" accept=".csv">
+    <button onclick="handleUpload()">Upload</button>
+    <div id="uploadResults" class="upload-results"></div>
+  </div>
+
+  <script>
+    function handleUpload() {
+      const fileInput = document.getElementById("csvFile");
+      const output = document.getElementById("uploadResults");
+      const file = fileInput.files[0];
+
+      if (!file) {
+        output.innerText = "Please select a CSV file.";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split(/\r?\n/);
+        let result = "Uploaded items:\n";
+        lines.forEach((line, idx) => {
+          const [title, price, description] = line.split(",");
+          if (title && price) {
+            result += `#${idx + 1}: "${title.trim()}" – $${price.trim()}\n`;
+          }
+        });
+        output.innerText = result || "No valid items found.";
+      };
+      reader.readAsText(file);
+    }
+  </script>
+
+</body>
+</html>
