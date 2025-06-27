@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Taste Match Pro</title>
+  <style>
+    .taste-match-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff0f6;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.06);
+    }
+    .taste-match-box h3 {
+      margin-top: 0;
+    }
+    .taste-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .taste-match-box button {
+      margin-top: 15px;
+      padding: 10px 16px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .taste-results {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="taste-match-box">
+    <h3>🧠 Taste Match Pro</h3>
+    <input type="text" id="userInput" class="taste-input" placeholder="Describe your taste (e.g., soft lace, worn scent)">
+    <button onclick="matchTaste()">Find Matching Items</button>
+    <div class="taste-results" id="matchResults"></div>
+  </div>
+
+  <script>
+    const items = [
+      { title: "Laced Fantasy", tags: ["lace", "visual", "soft"] },
+      { title: "Scented Desire", tags: ["scent", "worn", "natural"] },
+      { title: "Audio Tease", tags: ["voice", "audio", "moans"] },
+      { title: "Dirty Secrets Box", tags: ["extreme", "fetish", "used"] },
+      { title: "Romantic Session", tags: ["romance", "story", "private"] }
+    ];
+
+    function matchTaste() {
+      const input = document.getElementById("userInput").value.toLowerCase().split(/[, ]+/);
+      const results = document.getElementById("matchResults");
+
+      const matched = items
+        .map(item => {
+          const score = item.tags.reduce((acc, tag) => acc + (input.includes(tag) ? 1 : 0), 0);
+          return { ...item, score };
+        })
+        .filter(i => i.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      if (matched.length === 0) {
+        results.innerHTML = "<p>No matches found. Try different keywords.</p>";
+      } else {
+        results.innerHTML = "<h4>Top Matches:</h4>" + matched.map(i => `
+          <p><strong>${i.title}</strong> (score: ${i.score})</p>
+        `).join("");
+      }
+    }
+  </script>
+
+</body>
+</html>
