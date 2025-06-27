@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Taste Graph</title>
+  <style>
+    .taste-graph-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f7ff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    }
+    .taste-graph-container h3 {
+      margin-top: 0;
+    }
+    .taste-bar {
+      background: #ddd;
+      border-radius: 6px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .taste-bar-inner {
+      height: 18px;
+      background: #6a0dad;
+      width: 0;
+      transition: width 1s ease;
+    }
+    .taste-label {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="taste-graph-container">
+    <h3>📊 Taste Graph – Your Fetish Profile</h3>
+
+    <div class="taste-label">Scent-Based</div>
+    <div class="taste-bar"><div class="taste-bar-inner" data-value="85%"></div></div>
+
+    <div class="taste-label">Visual (Try-On, Lace)</div>
+    <div class="taste-bar"><div class="taste-bar-inner" data-value="70%"></div></div>
+
+    <div class="taste-label">Audio (Voice, Moans)</div>
+    <div class="taste-bar"><div class="taste-bar-inner" data-value="40%"></div></div>
+
+    <div class="taste-label">Storytelling / Fantasy</div>
+    <div class="taste-bar"><div class="taste-bar-inner" data-value="60%"></div></div>
+
+    <div class="taste-label">Rare / Extreme</div>
+    <div class="taste-bar"><div class="taste-bar-inner" data-value="30%"></div></div>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".taste-bar-inner").forEach(bar => {
+        const value = bar.getAttribute("data-value");
+        bar.style.width = value;
+      });
+    });
+  </script>
+
+</body>
+</html>
