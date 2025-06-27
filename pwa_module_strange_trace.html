@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PWA Install</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000"/>
+  <style>
+    .pwa-install-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #eef6ff;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0,0,0,0.08);
+    }
+    .pwa-install-box button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #0057d9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .pwa-install-box button:hover {
+      background: #003e99;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pwa-install-box">
+    <h3>🚀 Install as App</h3>
+    <p>You can install this site on your device like an app.</p>
+    <button id="installBtn" style="display:none;">Install Now</button>
+  </div>
+
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById("installBtn");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = "inline-block";
+
+      installBtn.addEventListener("click", () => {
+        installBtn.style.display = "none";
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choiceResult => {
+          if (choiceResult.outcome === "accepted") {
+            console.log("PWA installed");
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
