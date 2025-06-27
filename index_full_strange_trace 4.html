@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Strange Trace — Unified Marketplace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fafafa;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      padding: 20px 0;
+      background: #111;
+      color: #fff;
+      margin: 0;
+    }
+    section {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .buy-btn {
+      background: #000;
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .buy-btn:hover {
+      background: #111;
+    }
+  
+
+    .reels-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding: 20px;
+      scroll-snap-type: x mandatory;
+    }
+    .reel {
+      min-width: 300px;
+      height: 500px;
+      background: #000;
+      color: #fff;
+      border-radius: 12px;
+      position: relative;
+      scroll-snap-align: center;
+    }
+    .reel video {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .reel .info {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+  
+
+    .favorites-box {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fffaf0;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .product {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    .product:last-child {
+      border-bottom: none;
+    }
+    .fav-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #ccc;
+    }
+    .fav-btn.active {
+      color: #e67e22;
+    }
+    .favorites-list {
+      margin-top: 20px;
+    }
+  
+
+    .private-link-box {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #eef6f8;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.08);
+    }
+    .private-link-box input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .private-link-box button {
+      padding: 10px 16px;
+      font-size: 15px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .private-link-box .result {
+      margin-top: 15px;
+      word-break: break-word;
+      color: #003366;
+    }
+  
+
+    .ai-description-box {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff9f0;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .ai-description-box textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    .ai-description-box button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      font-size: 15px;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .ai-description-box .output {
+      margin-top: 15px;
+      font-style: italic;
+      color: #333;
+      white-space: pre-line;
+    }
+  
+
+    .trust-score-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0fcf7;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .trust-score-box input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .trust-score-box button {
+      margin-top: 15px;
+      padding: 10px 16px;
+      background: #009879;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .trust-result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  
+
+    .anonymizer-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.06);
+    }
+    .anonymizer-box textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      margin-top: 10px;
+    }
+    .anonymizer-box button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .anon-result {
+      margin-top: 15px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+      font-style: italic;
+      white-space: pre-wrap;
+    }
+  
+
+    .surprise-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff4f9;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .surprise-box button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .surprise-result {
+      margin-top: 20px;
+      font-size: 15px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+    }
+  
+
+    .report-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fef9f5;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.04);
+    }
+    .report-box h3 {
+      margin-top: 0;
+    }
+    .logs {
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      max-height: 250px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .log-entry {
+      border-left: 4px solid #ffa500;
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+    .log-entry.report {
+      border-color: #e74c3c;
+    }
+  
+
+    .trend-tips-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0f8ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .trend-tips-box h3 {
+      margin-top: 0;
+    }
+    .tip {
+      background: #fff;
+      border-left: 4px solid #007acc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+  
+
+    .expire-box {
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fdfcff;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.04);
+    }
+    .item {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 4px solid #888;
+      background: #fff;
+      border-radius: 6px;
+    }
+    .expired {
+      opacity: 0.5;
+      border-left-color: #e74c3c;
+    }
+  
+
+    .editor-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f4fff7;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .editor-box input, .editor-box textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .editor-box button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: #00b894;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .edit-result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+    }
+  
+
+    .settings-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9ffff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .settings-box button, select {
+      margin-top: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .output-area {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+    }
+  
+
+    .bulk-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fffaf0;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.04);
+    }
+    .bulk-box textarea {
+      width: 100%;
+      height: 150px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .bulk-box button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .bulk-result {
+      margin-top: 15px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+      white-space: pre-wrap;
+    }
+  
+
+    .pwa-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f3f9ff;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .pwa-box button {
+      padding: 10px 16px;
+      font-size: 16px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pwa-info {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
+    }
+  
+
+  </style>
+</head>
+<body>
+  <h1>🛍️ Welcome to Strange Trace</h1>
+
+  <html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Payment Module Test</title>
+  
+
+
+
+  <div class="payment-block">
+    <button onclick="processPayment(this)" 
+            class="buy-btn" 
+            data-title="Used Underwear - Worn 2 Days" 
+            data-price="19.99" 
+            data-id="item123">
+      💳 Buy Now – $19.99
+    </button>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Reels Module</title>
+  
+
+
+
+  <h2 style="text-align:center;">🎥 Try-On Reels</h2>
+  <div class="reels-container">
+    <div class="reel">
+      <video src="reels/reel1.mp4" autoplay muted loop playsinline></video>
+      <div class="info">Model A – Preview</div>
+    </div>
+    <div class="reel">
+      <video src="reels/reel2.mp4" autoplay muted loop playsinline></video>
+      <div class="info">Model B – Private Session</div>
+    </div>
+    <div class="reel">
+      <video src="reels/reel3.mp4" autoplay muted loop playsinline></video>
+      <div class="info">Model C – VIP Only</div>
+    </div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Favorites System</title>
+  
+
+
+
+  <div class="favorites-box">
+    <h3>⭐ Favorite Items</h3>
+
+    <div id="productList">
+      <!-- Товары -->
+    </div>
+
+    <h4>Your Favorites:</h4>
+    <div class="favorites-list" id="favoritesList">
+      <p>No favorites yet.</p>
+    </div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Private Link Generator</title>
+  
+
+
+
+  <div class="private-link-box">
+    <h3>🔐 Generate Private Link</h3>
+    <input type="text" id="productIdInput" placeholder="Enter Product ID (e.g., 7125)">
+    <button onclick="generatePrivateLink()">Create Private Link</button>
+    <div class="result" id="privateLinkResult"></div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>AI Description Generator</title>
+  
+
+
+
+  <div class="ai-description-box">
+    <h3>✍️ Generate AI Description</h3>
+    <textarea id="itemKeywords" placeholder="Enter keywords: lace, worn, scent..."></textarea>
+    <button onclick="generateAIDescription()">Generate Description</button>
+    <div class="output" id="aiOutput"></div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Trust Score</title>
+  
+
+
+
+  <div class="trust-score-box">
+    <h3>🧪 Seller Trust Score</h3>
+    <input type="text" id="sellerIdInput" placeholder="Enter Seller ID (e.g., user_123)">
+    <button onclick="calculateTrustScore()">Check Score</button>
+    <div class="trust-result" id="trustResult">Score will appear here.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>AI Description Anonymizer</title>
+  
+
+
+
+  <div class="anonymizer-box">
+    <h3>🌀 AI Description Anonymizer</h3>
+    <textarea id="inputText" placeholder="Paste sensitive description here..."></textarea>
+    <button onclick="anonymize()">Anonymize</button>
+    <div class="anon-result" id="anonOutput">Anonymized description will appear here.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Surprise Me Mode</title>
+  
+
+
+
+  <div class="surprise-box">
+    <h3>🕵️‍♀️ Surprise Me</h3>
+    <p>Click the button to discover a random hidden item...</p>
+    <button onclick="showSurprise()">Surprise Me</button>
+    <div class="surprise-result" id="surpriseResult">Nothing yet.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Purchase & Report Logs</title>
+  
+
+
+
+  <div class="report-box">
+    <h3>📊 Purchase & Complaint Logs</h3>
+    <div class="logs" id="logContainer">
+      <!-- Журнал будет заполнен через JS -->
+    </div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Trend Tips</title>
+  
+
+
+
+  <div class="trend-tips-box">
+    <h3>📌 Trend Tips for Sellers</h3>
+    <div id="trendTipsContainer">
+      <!-- Подсказки загружаются автоматически -->
+    </div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Auto-Renew & Expire</title>
+  
+
+
+
+  <div class="expire-box">
+    <h3>♻️ Auto-Renew & Expiration System</h3>
+    <div id="itemsContainer">Loading items...</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Mini Item Editor</title>
+  
+
+
+
+  <div class="editor-box">
+    <h3>🎛️ Mini Item Editor</h3>
+    <input type="text" id="editTitle" placeholder="Item Title">
+    <textarea id="editDesc" placeholder="Item Description..."></textarea>
+    <button onclick="saveItem()">Save Changes</button>
+    <div class="edit-result" id="editResult">No changes yet.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Reset / Export / Language</title>
+  
+
+
+
+  <div class="settings-box">
+    <h3>🌐 Settings: Reset / Export / Language</h3>
+
+    <button onclick="resetData()">🧨 Reset Local Data</button>
+    <button onclick="exportData()">📤 Export Local Data</button>
+
+    <br><br>
+    <label for="langSelect">🌍 Choose Language:</label>
+    <select id="langSelect" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <div class="output-area" id="outputBox">Settings log will appear here.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>Bulk Upload</title>
+  
+
+
+
+  <div class="bulk-box">
+    <h3>📦 Bulk Upload Items</h3>
+    <p>Enter items in JSON array format:</p>
+    <textarea id="bulkInput">[
+  { "title": "Mystery Pair", "desc": "Soft and scented, freshly packed." },
+  { "title": "Laced Surprise", "desc": "Elegant and discreet." }
+]</textarea>
+    <button onclick="processBulk()">Upload</button>
+    <div class="bulk-result" id="bulkOutput">Result will appear here.</div>
+  </div>
+
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <title>PWA Installer</title>
+  <link rel="manifest" href="manifest.json">
+  
+
+
+
+  <div class="pwa-box">
+    <h3>📲 Install as App (PWA)</h3>
+    <button id="installBtn" style="display:none;">Install App</button>
+    <div class="pwa-info" id="pwaStatus">Waiting for install event...</div>
+  </div>
+
+
+
+  <script>
+  
+    function sanitizeTitle(original) {
+      const safeWords = [
+        { bad: /underwear|panties|worn|fetish|dirty|used/gi, good: "Digital Access Package" },
+        { bad: /2\s*days?/gi, good: "2-Day File Unlock" },
+      ];
+      let safe = original;
+      safeWords.forEach(rule => {
+        safe = safe.replace(rule.bad, rule.good);
+      });
+      return safe;
+    }
+
+    function processPayment(btn) {
+      const rawTitle = btn.dataset.title || "Digital Product";
+      const maskedTitle = sanitizeTitle(rawTitle);
+      const amount = btn.dataset.price || "10.00";
+      const id = btn.dataset.id || "001";
+
+      const payload = {
+        amount: amount,
+        currency: "USD",
+        order_id: "order_" + id,
+        buyer_email: "buyer@example.com",
+        title: maskedTitle,
+        success_url: window.location.href + "?paid=" + id,
+        fail_url: window.location.href + "?fail=" + id
+      };
+
+      const query = new URLSearchParams(payload).toString();
+      const cryptomusTestLink = "https://pay.cryptomus.com/pay/TEST_API?" + query;
+
+      window.open(cryptomusTestLink, "_blank");
+    }
+  
+
+    const products = [
+      { id: 1, title: "Private Lace Set" },
+      { id: 2, title: "Scented Mystery Pack" },
+      { id: 3, title: "Voice Tease Sample" }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    function renderProducts() {
+      const container = document.getElementById("productList");
+      container.innerHTML = "";
+      products.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        const isFav = favorites.includes(p.id);
+        div.innerHTML = \`
+          <span>\${p.title}</span>
+          <button class="fav-btn \${isFav ? 'active' : ''}" onclick="toggleFavorite(\${p.id}, this)">★</button>
+        \`;
+        container.appendChild(div);
+      });
+      renderFavorites();
+    }
+
+    function toggleFavorite(id, btn) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      renderProducts();
+    }
+
+    function renderFavorites() {
+      const list = document.getElementById("favoritesList");
+      const favItems = products.filter(p => favorites.includes(p.id));
+      list.innerHTML = favItems.length
+        ? favItems.map(p => `<p>⭐ ${p.title}</p>`).join("")
+        : "<p>No favorites yet.</p>";
+    }
+
+    window.addEventListener("DOMContentLoaded", renderProducts);
+  
+
+    function generatePrivateLink() {
+      const id = document.getElementById("productIdInput").value.trim();
+      const output = document.getElementById("privateLinkResult");
+
+      if (!id) {
+        output.innerText = "Please enter a product ID.";
+        return;
+      }
+
+      const token = btoa(id + ":" + Date.now()).replace(/=/g, "");
+      const baseUrl = window.location.origin || "https://strangetrace.example";
+      const privateLink = baseUrl + "/?access_token=" + token;
+
+      output.innerText = privateLink;
+    }
+  
+
+    function generateAIDescription() {
+      const input = document.getElementById("itemKeywords").value.trim().toLowerCase();
+      const output = document.getElementById("aiOutput");
+
+      if (!input) {
+        output.innerText = "Please enter some keywords.";
+        return;
+      }
+
+      const templates = [
+        "This delicately selected item carries subtle notes of {keywords}, curated for those who crave intimacy and authenticity.",
+        "Sourced with passion, this piece has been through {keywords}, leaving behind a personal signature unlike any other.",
+        "A rare indulgence touched by {keywords} — a discreet experience for the truly curious.",
+        "Infused with the essence of {keywords}, this item invites you into a private, unforgettable moment.",
+        "Crafted with care and scented by {keywords}, it’s a one-of-a-kind trace from behind the curtain."
+      ];
+
+      const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
+      const description = randomTemplate.replace("{keywords}", input);
+      output.innerText = description;
+    }
+  
+
+    function calculateTrustScore() {
+      const sellerId = document.getElementById("sellerIdInput").value.trim();
+      const result = document.getElementById("trustResult");
+
+      if (!sellerId) {
+        result.innerText = "Please enter a valid seller ID.";
+        return;
+      }
+
+      // Симуляция расчёта
+      const fakeScore = Math.floor(60 + Math.random() * 40); // от 60 до 100
+      let rating = "Neutral";
+
+      if (fakeScore >= 90) rating = "Excellent";
+      else if (fakeScore >= 75) rating = "Good";
+      else if (fakeScore >= 60) rating = "Fair";
+
+      result.innerText = `Trust Score for ${sellerId}: ${fakeScore} (${rating})`;
+    }
+  
+
+    function anonymize() {
+      const input = document.getElementById("inputText").value;
+      const output = document.getElementById("anonOutput");
+
+      if (!input.trim()) {
+        output.innerText = "Please enter some text to anonymize.";
+        return;
+      }
+
+      let result = input;
+
+      const rules = [
+        { bad: /worn/gi, good: "previously enjoyed" },
+        { bad: /panties|underwear/gi, good: "personal textile" },
+        { bad: /scent|smell/gi, good: "signature essence" },
+        { bad: /dirty|used/gi, good: "experienced" },
+        { bad: /fetish|kink/gi, good: "special interest" }
+      ];
+
+      rules.forEach(r => {
+        result = result.replace(r.bad, r.good);
+      });
+
+      output.innerText = result;
+    }
+  
+
+    const surprises = [
+      "🔐 Exclusive Audio Session",
+      "🎁 Mystery Scent Package",
+      "👙 Hidden Lingerie Drop",
+      "💌 Intimate Letter with Surprise",
+      "🧼 After-Night Cloth Access"
+    ];
+
+    function showSurprise() {
+      const index = Math.floor(Math.random() * surprises.length);
+      const result = surprises[index];
+      document.getElementById("surpriseResult").innerText = result;
+    }
+  
+
+    const logs = [
+      { type: "purchase", user: "user_245", item: "Scented Pack", time: "2025-06-26 14:33" },
+      { type: "report", user: "user_150", item: "Lace Drop", time: "2025-06-26 13:17", reason: "Item not as described" },
+      { type: "purchase", user: "user_033", item: "Mystery Clip", time: "2025-06-25 21:05" },
+      { type: "report", user: "user_411", item: "Private Reel", time: "2025-06-25 19:44", reason: "Offensive content" }
+    ];
+
+    function renderLogs() {
+      const container = document.getElementById("logContainer");
+      container.innerHTML = logs.map(log => {
+        return \`
+          <div class="log-entry \${log.type === 'report' ? 'report' : ''}">
+            <strong>\${log.type === 'report' ? '🚩 Report' : '✅ Purchase'}</strong><br>
+            User: <code>\${log.user}</code><br>
+            Item: <em>\${log.item}</em><br>
+            Time: \${log.time}
+            \${log.reason ? `<br>Reason: <u>\${log.reason}</u>` : ''}
+          </div>
+        \`;
+      }).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", renderLogs);
+  
+
+    const trendTips = [
+      "👙 'Lace' and 'Try-On' tags are gaining traction this week.",
+      "🎧 Audio items with natural moans are being viewed 30% more.",
+      "📦 Bundle offers (2+ items) increase purchases by 45%.",
+      "🕐 Items posted in late evening hours (8–11PM) get more engagement.",
+      "🚨 Fetish terms like 'scented' are better masked as 'personal archive'."
+    ];
+
+    function showTrendTips() {
+      const container = document.getElementById("trendTipsContainer");
+      container.innerHTML = trendTips.map(tip => \`<div class="tip">\${tip}</div>\`).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", showTrendTips);
+  
+
+    const now = Date.now();
+    const items = [
+      { title: "Romantic Audio Set", lastView: now - 86400000 * 5 },   // 5 дней назад
+      { title: "Laced Tease Pack", lastView: now - 86400000 * 33 },   // 33 дня назад
+      { title: "After-Night Archive", lastView: now - 86400000 * 2 }, // 2 дня назад
+    ];
+
+    function renderItems() {
+      const container = document.getElementById("itemsContainer");
+      container.innerHTML = "";
+
+      items.forEach(item => {
+        const daysAgo = Math.floor((now - item.lastView) / 86400000);
+        const expired = daysAgo > 30;
+
+        const el = document.createElement("div");
+        el.className = "item" + (expired ? " expired" : "");
+        el.innerHTML = \`
+          <strong>\${item.title}</strong><br>
+          Last viewed: \${daysAgo} day(s) ago<br>
+          Status: \${expired ? '<b style="color:#e74c3c">Expired - hidden</b>' : '✅ Active'}
+        \`;
+
+        container.appendChild(el);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", renderItems);
+  
+
+    function saveItem() {
+      const title = document.getElementById("editTitle").value.trim();
+      const desc = document.getElementById("editDesc").value.trim();
+      const result = document.getElementById("editResult");
+
+      if (!title || !desc) {
+        result.innerText = "Please fill in all fields.";
+        return;
+      }
+
+      result.innerHTML = \`
+        <b>Updated Item:</b><br>
+        Title: \${title}<br>
+        Description: \${desc}
+      \`;
+    }
+  
+
+    function resetData() {
+      localStorage.clear();
+      document.getElementById("outputBox").innerText = "✅ All local data has been reset.";
+    }
+
+    function exportData() {
+      const data = JSON.stringify(localStorage, null, 2);
+      document.getElementById("outputBox").innerText = "📦 Exported Data:\n" + data;
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById("langSelect").value;
+      document.getElementById("outputBox").innerText = "🌐 Language switched to: " + lang.toUpperCase();
+    }
+  
+
+    function processBulk() {
+      const input = document.getElementById("bulkInput").value;
+      const output = document.getElementById("bulkOutput");
+
+      try {
+        const items = JSON.parse(input);
+        if (!Array.isArray(items)) throw "Not an array.";
+
+        let summary = "✅ Uploaded " + items.length + " items:\n\n";
+        items.forEach((item, i) => {
+          summary += (i+1) + ". " + item.title + " — " + item.desc + "\n";
+        });
+
+        output.innerText = summary;
+      } catch (e) {
+        output.innerText = "❌ Invalid JSON input.";
+      }
+    }
+  
+
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = 'inline-block';
+      document.getElementById('pwaStatus').innerText = 'You can now install this site as an app.';
+    });
+
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        document.getElementById('pwaStatus').innerText = outcome === 'accepted'
+          ? '✅ App installed!'
+          : '❌ Installation dismissed.';
+        deferredPrompt = null;
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  
+
+  </script>
+</body>
+</html>
