@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Purchase & Report Logs</title>
+  <style>
+    .report-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fef9f5;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.04);
+    }
+    .report-box h3 {
+      margin-top: 0;
+    }
+    .logs {
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      max-height: 250px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .log-entry {
+      border-left: 4px solid #ffa500;
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+    .log-entry.report {
+      border-color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="report-box">
+    <h3>📊 Purchase & Complaint Logs</h3>
+    <div class="logs" id="logContainer">
+      <!-- Журнал будет заполнен через JS -->
+    </div>
+  </div>
+
+  <script>
+    const logs = [
+      { type: "purchase", user: "user_245", item: "Scented Pack", time: "2025-06-26 14:33" },
+      { type: "report", user: "user_150", item: "Lace Drop", time: "2025-06-26 13:17", reason: "Item not as described" },
+      { type: "purchase", user: "user_033", item: "Mystery Clip", time: "2025-06-25 21:05" },
+      { type: "report", user: "user_411", item: "Private Reel", time: "2025-06-25 19:44", reason: "Offensive content" }
+    ];
+
+    function renderLogs() {
+      const container = document.getElementById("logContainer");
+      container.innerHTML = logs.map(log => {
+        return \`
+          <div class="log-entry \${log.type === 'report' ? 'report' : ''}">
+            <strong>\${log.type === 'report' ? '🚩 Report' : '✅ Purchase'}</strong><br>
+            User: <code>\${log.user}</code><br>
+            Item: <em>\${log.item}</em><br>
+            Time: \${log.time}
+            \${log.reason ? `<br>Reason: <u>\${log.reason}</u>` : ''}
+          </div>
+        \`;
+      }).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", renderLogs);
+  </script>
+
+</body>
+</html>
