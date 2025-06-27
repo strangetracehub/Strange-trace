@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trending Items</title>
+  <style>
+    .trending-box {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .trending-box h3 {
+      margin-top: 0;
+    }
+    .trending-items {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .trend-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 200px;
+      text-align: center;
+    }
+    .trend-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .trend-card .title {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="trending-box">
+    <h3>🔥 Trending Now</h3>
+    <div class="trending-items" id="trendingContainer">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <script>
+    const trendingItems = [
+      { title: "Laced Fantasy Pack", image: "https://via.placeholder.com/200x160?text=Trend+1" },
+      { title: "Mystery Tease Box", image: "https://via.placeholder.com/200x160?text=Trend+2" },
+      { title: "Sensual Voice Drop", image: "https://via.placeholder.com/200x160?text=Trend+3" },
+      { title: "Worn Weekend Pair", image: "https://via.placeholder.com/200x160?text=Trend+4" },
+      { title: "Intimate Try-On", image: "https://via.placeholder.com/200x160?text=Trend+5" }
+    ];
+
+    function loadTrendingItems() {
+      const container = document.getElementById("trendingContainer");
+      trendingItems.slice(0, 4).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "trend-card";
+        card.innerHTML = \`
+          <img src="\${item.image}" alt="Trending">
+          <div class="title">\${item.title}</div>
+        \`;
+        container.appendChild(card);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", loadTrendingItems);
+  </script>
+
+</body>
+</html>
