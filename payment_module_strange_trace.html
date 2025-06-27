@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Module Test</title>
+  <style>
+    .buy-btn {
+      background: #000;
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .buy-btn:hover {
+      background: #111;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-block">
+    <button onclick="processPayment(this)" 
+            class="buy-btn" 
+            data-title="Used Underwear - Worn 2 Days" 
+            data-price="19.99" 
+            data-id="item123">
+      💳 Buy Now – $19.99
+    </button>
+  </div>
+
+  <script>
+    function sanitizeTitle(original) {
+      const safeWords = [
+        { bad: /underwear|panties|worn|fetish|dirty|used/gi, good: "Digital Access Package" },
+        { bad: /2\s*days?/gi, good: "2-Day File Unlock" },
+      ];
+      let safe = original;
+      safeWords.forEach(rule => {
+        safe = safe.replace(rule.bad, rule.good);
+      });
+      return safe;
+    }
+
+    function processPayment(btn) {
+      const rawTitle = btn.dataset.title || "Digital Product";
+      const maskedTitle = sanitizeTitle(rawTitle);
+      const amount = btn.dataset.price || "10.00";
+      const id = btn.dataset.id || "001";
+
+      const payload = {
+        amount: amount,
+        currency: "USD",
+        order_id: "order_" + id,
+        buyer_email: "buyer@example.com",
+        title: maskedTitle,
+        success_url: window.location.href + "?paid=" + id,
+        fail_url: window.location.href + "?fail=" + id
+      };
+
+      const query = new URLSearchParams(payload).toString();
+      const cryptomusTestLink = "https://pay.cryptomus.com/pay/TEST_API?" + query;
+
+      window.open(cryptomusTestLink, "_blank");
+    }
+  </script>
+
+</body>
+</html>
