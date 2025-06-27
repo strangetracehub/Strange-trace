@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trust Score</title>
+  <style>
+    .trust-score-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0fcf7;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .trust-score-box input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .trust-score-box button {
+      margin-top: 15px;
+      padding: 10px 16px;
+      background: #009879;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .trust-result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="trust-score-box">
+    <h3>🧪 Seller Trust Score</h3>
+    <input type="text" id="sellerIdInput" placeholder="Enter Seller ID (e.g., user_123)">
+    <button onclick="calculateTrustScore()">Check Score</button>
+    <div class="trust-result" id="trustResult">Score will appear here.</div>
+  </div>
+
+  <script>
+    function calculateTrustScore() {
+      const sellerId = document.getElementById("sellerIdInput").value.trim();
+      const result = document.getElementById("trustResult");
+
+      if (!sellerId) {
+        result.innerText = "Please enter a valid seller ID.";
+        return;
+      }
+
+      // Симуляция расчёта
+      const fakeScore = Math.floor(60 + Math.random() * 40); // от 60 до 100
+      let rating = "Neutral";
+
+      if (fakeScore >= 90) rating = "Excellent";
+      else if (fakeScore >= 75) rating = "Good";
+      else if (fakeScore >= 60) rating = "Fair";
+
+      result.innerText = `Trust Score for ${sellerId}: ${fakeScore} (${rating})`;
+    }
+  </script>
+
+</body>
+</html>
