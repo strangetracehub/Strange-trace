@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Description Anonymizer</title>
+  <style>
+    .anonymizer-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.06);
+    }
+    .anonymizer-box textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      margin-top: 10px;
+    }
+    .anonymizer-box button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .anon-result {
+      margin-top: 15px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+      font-style: italic;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="anonymizer-box">
+    <h3>🌀 AI Description Anonymizer</h3>
+    <textarea id="inputText" placeholder="Paste sensitive description here..."></textarea>
+    <button onclick="anonymize()">Anonymize</button>
+    <div class="anon-result" id="anonOutput">Anonymized description will appear here.</div>
+  </div>
+
+  <script>
+    function anonymize() {
+      const input = document.getElementById("inputText").value;
+      const output = document.getElementById("anonOutput");
+
+      if (!input.trim()) {
+        output.innerText = "Please enter some text to anonymize.";
+        return;
+      }
+
+      let result = input;
+
+      const rules = [
+        { bad: /worn/gi, good: "previously enjoyed" },
+        { bad: /panties|underwear/gi, good: "personal textile" },
+        { bad: /scent|smell/gi, good: "signature essence" },
+        { bad: /dirty|used/gi, good: "experienced" },
+        { bad: /fetish|kink/gi, good: "special interest" }
+      ];
+
+      rules.forEach(r => {
+        result = result.replace(r.bad, r.good);
+      });
+
+      output.innerText = result;
+    }
+  </script>
+
+</body>
+</html>
