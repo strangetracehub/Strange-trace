@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Filters</title>
+  <style>
+    .filters-box {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f7f7ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .filters-box select,
+    .filters-box input[type="range"] {
+      margin: 10px 0;
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .filters-box label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+    .filter-results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="filters-box">
+    <h3>🔍 Advanced Filters</h3>
+
+    <label for="category">Category</label>
+    <select id="category">
+      <option value="">All</option>
+      <option value="scent">Scent</option>
+      <option value="visual">Visual</option>
+      <option value="audio">Audio</option>
+      <option value="exclusive">Exclusive</option>
+    </select>
+
+    <label for="priceRange">Max Price: <span id="priceValue">$50</span></label>
+    <input type="range" id="priceRange" min="5" max="100" step="1" value="50" oninput="updatePriceValue(this.value)">
+
+    <button onclick="applyFilters()">Apply Filters</button>
+
+    <div class="filter-results" id="results"></div>
+  </div>
+
+  <script>
+    const items = [
+      { title: "Lace & Scent", price: 25, category: "scent" },
+      { title: "Try-On Video", price: 40, category: "visual" },
+      { title: "Voice Sample", price: 15, category: "audio" },
+      { title: "Exclusive Pair", price: 60, category: "exclusive" }
+    ];
+
+    function updatePriceValue(val) {
+      document.getElementById("priceValue").innerText = "$" + val;
+    }
+
+    function applyFilters() {
+      const cat = document.getElementById("category").value;
+      const price = parseInt(document.getElementById("priceRange").value);
+      const results = document.getElementById("results");
+
+      const filtered = items.filter(item =>
+        (cat === "" || item.category === cat) &&
+        item.price <= price
+      );
+
+      results.innerHTML = filtered.length
+        ? filtered.map(i => `<p><strong>${i.title}</strong> – $${i.price}</p>`).join("")
+        : "<p>No items match your filters.</p>";
+    }
+  </script>
+
+</body>
+</html>
