@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto-Renew Module</title>
+  <style>
+    .product-item {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f4f4f4;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+    .product-item h3 {
+      margin-top: 0;
+    }
+    .autorenew-toggle {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .autorenew-toggle input {
+      margin-right: 8px;
+    }
+    .renew-status {
+      margin-top: 10px;
+      color: green;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="product-item">
+    <h3>Private Access Set</h3>
+    <p>Exclusive item that expires in 7 days unless renewed.</p>
+
+    <div class="autorenew-toggle">
+      <input type="checkbox" id="autoRenewBox" onchange="toggleAutoRenew(this)">
+      <label for="autoRenewBox">Enable Auto-Renew</label>
+    </div>
+    <div id="renewStatus" class="renew-status">✅ Auto-renewal is active.</div>
+  </div>
+
+  <script>
+    function toggleAutoRenew(checkbox) {
+      const status = document.getElementById("renewStatus");
+      if (checkbox.checked) {
+        localStorage.setItem("autoRenew_enabled", "true");
+        status.style.display = "block";
+      } else {
+        localStorage.removeItem("autoRenew_enabled");
+        status.style.display = "none";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const isEnabled = localStorage.getItem("autoRenew_enabled") === "true";
+      document.getElementById("autoRenewBox").checked = isEnabled;
+      if (isEnabled) {
+        document.getElementById("renewStatus").style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>
