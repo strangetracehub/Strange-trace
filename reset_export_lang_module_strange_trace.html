@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reset / Export / Language</title>
+  <style>
+    .settings-box {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9ffff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .settings-box button, select {
+      margin-top: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .output-area {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="settings-box">
+    <h3>🌐 Settings: Reset / Export / Language</h3>
+
+    <button onclick="resetData()">🧨 Reset Local Data</button>
+    <button onclick="exportData()">📤 Export Local Data</button>
+
+    <br><br>
+    <label for="langSelect">🌍 Choose Language:</label>
+    <select id="langSelect" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <div class="output-area" id="outputBox">Settings log will appear here.</div>
+  </div>
+
+  <script>
+    function resetData() {
+      localStorage.clear();
+      document.getElementById("outputBox").innerText = "✅ All local data has been reset.";
+    }
+
+    function exportData() {
+      const data = JSON.stringify(localStorage, null, 2);
+      document.getElementById("outputBox").innerText = "📦 Exported Data:\n" + data;
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById("langSelect").value;
+      document.getElementById("outputBox").innerText = "🌐 Language switched to: " + lang.toUpperCase();
+    }
+  </script>
+
+</body>
+</html>
