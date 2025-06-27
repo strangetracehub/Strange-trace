@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Export/Import Profile</title>
+  <style>
+    .profile-transfer-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f4f9ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .profile-transfer-box h3 {
+      margin-top: 0;
+    }
+    .profile-transfer-box button {
+      padding: 10px 16px;
+      margin-right: 10px;
+      font-size: 15px;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .profile-transfer-box input {
+      margin-top: 15px;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .profile-transfer-box textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      height: 100px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-transfer-box">
+    <h3>📥 Export / Import Profile</h3>
+    <button onclick="exportProfile()">Export Profile</button>
+    <button onclick="importProfile()">Import Profile</button>
+    <textarea id="profileData" placeholder="Paste exported data here to import..."></textarea>
+  </div>
+
+  <script>
+    const userProfile = {
+      nickname: "user_3941",
+      preferences: ["scent", "lace", "voice"],
+      vip: true,
+      lastLogin: new Date().toISOString()
+    };
+
+    function exportProfile() {
+      const encoded = btoa(JSON.stringify(userProfile));
+      document.getElementById("profileData").value = encoded;
+    }
+
+    function importProfile() {
+      try {
+        const raw = document.getElementById("profileData").value.trim();
+        const decoded = atob(raw);
+        const parsed = JSON.parse(decoded);
+        alert("Profile imported for: " + parsed.nickname);
+        console.log("Imported profile:", parsed);
+      } catch (e) {
+        alert("Failed to import profile. Invalid data.");
+      }
+    }
+  </script>
+
+</body>
+</html>
