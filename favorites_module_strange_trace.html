@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorites System</title>
+  <style>
+    .favorites-box {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fffaf0;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .product {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    .product:last-child {
+      border-bottom: none;
+    }
+    .fav-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #ccc;
+    }
+    .fav-btn.active {
+      color: #e67e22;
+    }
+    .favorites-list {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="favorites-box">
+    <h3>⭐ Favorite Items</h3>
+
+    <div id="productList">
+      <!-- Товары -->
+    </div>
+
+    <h4>Your Favorites:</h4>
+    <div class="favorites-list" id="favoritesList">
+      <p>No favorites yet.</p>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, title: "Private Lace Set" },
+      { id: 2, title: "Scented Mystery Pack" },
+      { id: 3, title: "Voice Tease Sample" }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    function renderProducts() {
+      const container = document.getElementById("productList");
+      container.innerHTML = "";
+      products.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        const isFav = favorites.includes(p.id);
+        div.innerHTML = \`
+          <span>\${p.title}</span>
+          <button class="fav-btn \${isFav ? 'active' : ''}" onclick="toggleFavorite(\${p.id}, this)">★</button>
+        \`;
+        container.appendChild(div);
+      });
+      renderFavorites();
+    }
+
+    function toggleFavorite(id, btn) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      renderProducts();
+    }
+
+    function renderFavorites() {
+      const list = document.getElementById("favoritesList");
+      const favItems = products.filter(p => favorites.includes(p.id));
+      list.innerHTML = favItems.length
+        ? favItems.map(p => `<p>⭐ ${p.title}</p>`).join("")
+        : "<p>No favorites yet.</p>";
+    }
+
+    window.addEventListener("DOMContentLoaded", renderProducts);
+  </script>
+
+</body>
+</html>
