@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Disappearing Item</title>
+  <style>
+    .disappearing-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff7f0;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .disappearing-box h3 {
+      margin-top: 0;
+    }
+    .countdown {
+      font-size: 18px;
+      font-weight: bold;
+      color: #c0392b;
+      margin-top: 10px;
+    }
+    .expired-message {
+      display: none;
+      color: #888;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="disappearing-box" id="disappearingBox">
+    <h3>⏳ Limited-Time Item</h3>
+    <p>This item will disappear after the countdown ends:</p>
+    <div class="countdown" id="countdown"></div>
+    <div class="expired-message" id="expiredMessage">❌ This item is no longer available.</div>
+  </div>
+
+  <script>
+    const expiryTimestamp = Date.now() + 60000; // 1 min from now (adjust as needed)
+
+    function updateCountdown() {
+      const now = Date.now();
+      const remaining = expiryTimestamp - now;
+      const countdownEl = document.getElementById("countdown");
+      const expiredEl = document.getElementById("expiredMessage");
+      const box = document.getElementById("disappearingBox");
+
+      if (remaining <= 0) {
+        countdownEl.style.display = "none";
+        expiredEl.style.display = "block";
+        box.style.opacity = 0.5;
+        return;
+      }
+
+      const seconds = Math.floor(remaining / 1000);
+      countdownEl.innerText = seconds + " seconds left";
+      requestAnimationFrame(updateCountdown);
+    }
+
+    window.addEventListener("DOMContentLoaded", updateCountdown);
+  </script>
+
+</body>
+</html>
