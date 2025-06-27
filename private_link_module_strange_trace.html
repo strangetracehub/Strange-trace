@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Private Link Generator</title>
+  <style>
+    .private-link-box {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #eef6f8;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.08);
+    }
+    .private-link-box input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .private-link-box button {
+      padding: 10px 16px;
+      font-size: 15px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .private-link-box .result {
+      margin-top: 15px;
+      word-break: break-word;
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="private-link-box">
+    <h3>🔐 Generate Private Link</h3>
+    <input type="text" id="productIdInput" placeholder="Enter Product ID (e.g., 7125)">
+    <button onclick="generatePrivateLink()">Create Private Link</button>
+    <div class="result" id="privateLinkResult"></div>
+  </div>
+
+  <script>
+    function generatePrivateLink() {
+      const id = document.getElementById("productIdInput").value.trim();
+      const output = document.getElementById("privateLinkResult");
+
+      if (!id) {
+        output.innerText = "Please enter a product ID.";
+        return;
+      }
+
+      const token = btoa(id + ":" + Date.now()).replace(/=/g, "");
+      const baseUrl = window.location.origin || "https://strangetrace.example";
+      const privateLink = baseUrl + "/?access_token=" + token;
+
+      output.innerText = privateLink;
+    }
+  </script>
+
+</body>
+</html>
