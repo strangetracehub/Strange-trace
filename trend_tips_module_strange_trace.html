@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trend Tips</title>
+  <style>
+    .trend-tips-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0f8ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .trend-tips-box h3 {
+      margin-top: 0;
+    }
+    .tip {
+      background: #fff;
+      border-left: 4px solid #007acc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="trend-tips-box">
+    <h3>📌 Trend Tips for Sellers</h3>
+    <div id="trendTipsContainer">
+      <!-- Подсказки загружаются автоматически -->
+    </div>
+  </div>
+
+  <script>
+    const trendTips = [
+      "👙 'Lace' and 'Try-On' tags are gaining traction this week.",
+      "🎧 Audio items with natural moans are being viewed 30% more.",
+      "📦 Bundle offers (2+ items) increase purchases by 45%.",
+      "🕐 Items posted in late evening hours (8–11PM) get more engagement.",
+      "🚨 Fetish terms like 'scented' are better masked as 'personal archive'."
+    ];
+
+    function showTrendTips() {
+      const container = document.getElementById("trendTipsContainer");
+      container.innerHTML = trendTips.map(tip => \`<div class="tip">\${tip}</div>\`).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", showTrendTips);
+  </script>
+
+</body>
+</html>
