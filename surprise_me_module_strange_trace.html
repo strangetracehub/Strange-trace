@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Surprise Me Mode</title>
+  <style>
+    .surprise-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff4f9;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .surprise-box button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .surprise-result {
+      margin-top: 20px;
+      font-size: 15px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="surprise-box">
+    <h3>🕵️‍♀️ Surprise Me</h3>
+    <p>Click the button to discover a random hidden item...</p>
+    <button onclick="showSurprise()">Surprise Me</button>
+    <div class="surprise-result" id="surpriseResult">Nothing yet.</div>
+  </div>
+
+  <script>
+    const surprises = [
+      "🔐 Exclusive Audio Session",
+      "🎁 Mystery Scent Package",
+      "👙 Hidden Lingerie Drop",
+      "💌 Intimate Letter with Surprise",
+      "🧼 After-Night Cloth Access"
+    ];
+
+    function showSurprise() {
+      const index = Math.floor(Math.random() * surprises.length);
+      const result = surprises[index];
+      document.getElementById("surpriseResult").innerText = result;
+    }
+  </script>
+
+</body>
+</html>
