@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seller Private Panel</title>
+  <style>
+    .seller-panel {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0fff9;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.06);
+    }
+    .seller-panel h3 {
+      margin-top: 0;
+    }
+    .seller-info {
+      margin-bottom: 15px;
+    }
+    .seller-info p {
+      margin: 5px 0;
+    }
+    .secret-list {
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .secret-item {
+      margin-bottom: 10px;
+      padding: 6px;
+      background: #fdfdfd;
+      border-left: 4px solid #00897b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="seller-panel">
+    <h3>🔐 Seller Private Dashboard</h3>
+    <div class="seller-info">
+      <p><strong>Username:</strong> seller_027</p>
+      <p><strong>Status:</strong> VIP</p>
+      <p><strong>Private Access:</strong> Enabled</p>
+    </div>
+
+    <h4>📦 Secret Listings</h4>
+    <div class="secret-list" id="secretList">
+      <!-- Будут загружены приватные товары -->
+    </div>
+  </div>
+
+  <script>
+    const privateProducts = [
+      { title: "After-Night Towel", masked: "Digital Archive A-213" },
+      { title: "Unwashed Bra Bundle", masked: "Download Pack B-774" },
+      { title: "Extreme Scent Pair", masked: "Consulting Package X-999" }
+    ];
+
+    function loadPrivateProducts() {
+      const container = document.getElementById("secretList");
+      container.innerHTML = privateProducts.map(p => \`
+        <div class="secret-item">
+          <strong>\${p.title}</strong><br>
+          <small>Masked as: <em>\${p.masked}</em></small>
+        </div>
+      \`).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", loadPrivateProducts);
+  </script>
+
+</body>
+</html>
