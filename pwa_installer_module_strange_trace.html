@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PWA Installer</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    .pwa-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f3f9ff;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .pwa-box button {
+      padding: 10px 16px;
+      font-size: 16px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pwa-info {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pwa-box">
+    <h3>📲 Install as App (PWA)</h3>
+    <button id="installBtn" style="display:none;">Install App</button>
+    <div class="pwa-info" id="pwaStatus">Waiting for install event...</div>
+  </div>
+
+  <script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = 'inline-block';
+      document.getElementById('pwaStatus').innerText = 'You can now install this site as an app.';
+    });
+
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        document.getElementById('pwaStatus').innerText = outcome === 'accepted'
+          ? '✅ App installed!'
+          : '❌ Installation dismissed.';
+        deferredPrompt = null;
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+
+</body>
+</html>
