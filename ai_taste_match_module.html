@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Taste Match</title>
+  <style>
+    .recommendation-block {
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 900px;
+      background: #fafafa;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .recommendation-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .recommendation-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .rec-item {
+      width: 200px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .rec-item img {
+      width: 100%;
+      border-radius: 6px;
+    }
+    .rec-item .title {
+      font-weight: 500;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="recommendation-block">
+    <div class="recommendation-title">🔮 You may also like</div>
+    <div class="recommendation-items" id="aiRecommendations">
+      <!-- AI-generated items will appear here -->
+    </div>
+  </div>
+
+  <script>
+    const sampleProducts = [
+      { title: "Soft Lace Wrap", image: "https://via.placeholder.com/200x200?text=Item+1" },
+      { title: "Dark Secrets Kit", image: "https://via.placeholder.com/200x200?text=Item+2" },
+      { title: "Personal Scent Sample", image: "https://via.placeholder.com/200x200?text=Item+3" },
+      { title: "Intimate Moments", image: "https://via.placeholder.com/200x200?text=Item+4" },
+      { title: "Private Tease Clip", image: "https://via.placeholder.com/200x200?text=Item+5" },
+    ];
+
+    function generateTasteMatch() {
+      const container = document.getElementById("aiRecommendations");
+      container.innerHTML = "";
+      const shuffled = sampleProducts.sort(() => 0.5 - Math.random()).slice(0, 3);
+      shuffled.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "rec-item";
+        div.innerHTML = \`
+          <img src="\${item.image}" alt="Recommended">
+          <div class="title">\${item.title}</div>
+        \`;
+        container.appendChild(div);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", generateTasteMatch);
+  </script>
+
+</body>
+</html>
