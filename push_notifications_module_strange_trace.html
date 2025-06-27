@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Push Notifications</title>
+  <style>
+    .push-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0faff;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .push-box button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .push-box button:hover {
+      background: #005f99;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="push-box">
+    <h3>🔔 Smart Push Notifications</h3>
+    <p>Enable notifications to get updates on trending items and offers.</p>
+    <button onclick="requestNotification()">Enable Notifications</button>
+  </div>
+
+  <script>
+    function requestNotification() {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notifications.");
+        return;
+      }
+
+      Notification.requestPermission().then(function(permission) {
+        if (permission === "granted") {
+          new Notification("✅ Notifications enabled", {
+            body: "You will now receive updates from Strange Trace.",
+            icon: "https://via.placeholder.com/96x96?text=🔔"
+          });
+        } else {
+          alert("Notifications are blocked or denied.");
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
