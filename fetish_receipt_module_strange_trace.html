@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fetish Receipt Generator</title>
+  <style>
+    .receipt-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fffdf5;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+      font-family: monospace;
+    }
+    .receipt-content {
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px dashed #aaa;
+      margin-top: 15px;
+    }
+    .receipt-box button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="receipt-box">
+    <h3>🧾 Generate Fetish Receipt</h3>
+    <button onclick="generateReceipt()">Create Receipt</button>
+    <div class="receipt-content" id="receiptArea">Press the button to generate.</div>
+  </div>
+
+  <script>
+    function generateReceipt() {
+      const item = "Softly Scented Set";
+      const maskedItem = "Digital Archive A-873";
+      const buyer = "User#29AC3";
+      const date = new Date().toLocaleString();
+      const orderId = "ORD-" + Math.floor(Math.random() * 999999);
+
+      const receipt = \`
+============================
+    STRANGE TRACE RECEIPT
+============================
+
+Product: \${maskedItem}
+Real Ref: "\${item}"
+Order ID: \${orderId}
+Buyer ID: \${buyer}
+Date: \${date}
+
+This digital receipt is generated for
+discreet archival and reference use only.
+Thank you for your support.
+
+============================
+\`;
+
+      document.getElementById("receiptArea").innerText = receipt;
+    }
+  </script>
+
+</body>
+</html>
